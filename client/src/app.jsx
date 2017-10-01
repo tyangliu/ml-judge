@@ -3,7 +3,7 @@ import Radium, {Style} from 'radium';
 import {Route, Switch} from 'react-router';
 import styler from 'react-styling';
 
-import {Home} from './components';
+import {Home, Challenge} from './components';
 
 export default class App extends React.Component {
   render() {
@@ -12,6 +12,7 @@ export default class App extends React.Component {
         <Style rules={styles.appRules}/>
         <Switch>
           <Route exact path='/' component={Home}/>
+          <Route path='/challenge' component={Challenge}/>
         </Switch>
         {this.props.children}
       </div>
@@ -23,7 +24,7 @@ const styles = styler`
   app
     background: rgba(0,0,0,0.03)
     font-family: 'mr-eaves-xl-sans', sans-serif
-    font-size: 17px
+    font-size: 15px
     letter-spacing: 0.4px
     line-height: 1.5em
     color: rgba(24,50,80,1)
