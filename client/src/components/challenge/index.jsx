@@ -1,44 +1,35 @@
 import React from 'react';
 import Radium from 'radium';
 import styler from 'react-styling';
-import {Switch, Route} from 'react-router';
+import {Switch, Route, Link} from 'react-router-dom';
 
+import ChallengeNavigation from './navigation';
 import ChallengeInfo from './info';
 import Leaderboard from './leaderboard';
+import Submissions from './submissions';
 
 @Radium
 export default class Challenge extends React.Component {
   render() {
+    console.log(this.props.routes);
     return (
       <div style={styles.challenge}>
         <div style={styles.challengeContainer}>
           <div style={styles.challengeHeader}>
+            <p style={styles.challengeDeadline}>
+              <span style={styles.submitBy}>Submit By:</span> Oct 28, 2017 9:00PM
+            </p>
             <p style={styles.challengeDate}>Oct 21, 2017</p>
             <h1 style={styles.title}>
-              Meme
+              Titanic Survivors
             </h1>
           </div>
-          <div style={styles.challengeNavContainer}>
-            <ul style={styles.challengeNav}>
-              <li style={styles.navItem.current}>
-                Challenge
-              </li>
-              <li style={styles.navItem}>
-                Resources
-              </li>
-              <li style={styles.navItem}>
-                Submissions
-              </li>
-              <li style={styles.navItem}>
-                Leaderboard
-              </li>
-            </ul>
-            <div style={styles.clearfix}/>
-          </div>
+          <Route component={ChallengeNavigation}/>
 					<div style={styles.body}>
             <Switch>
-              <Route path='/' component={ChallengeInfo}/>
-              <Route path='/leaderboard' component={Leaderboard}/>
+              <Route exact path='/challenge' component={ChallengeInfo}/>
+              <Route path='/challenge/leaderboard' component={Leaderboard}/>
+              <Route path='/challenge/submissions' component={Submissions}/>
             </Switch>
 					</div>
         </div>
@@ -58,7 +49,7 @@ const styles = styler`
 
   challengeContainer
     width: 960px
-    padding: 40px 0
+    padding: 80px 0
 
   challengeDate
     font-size: 14px
@@ -69,27 +60,18 @@ const styles = styler`
   title
     font-weight: bold
     font-size: 36px
-    margin-bottom: 36px
+    margin-bottom: 36px 
 
-  challengeNavContainer
-    border-bottom: 1px solid rgba(51,88,126,0.2)
-    margin-bottom: 36px
-
-  challengeNav
-    font-family: 'mr-eaves-xl-sans', sans-serif
-    float: right
-
-  navItem
+  challengeDeadline 
     font-size: 14px
     text-transform: uppercase
     letter-spacing: 1px
-    font-weight: bold
-    padding: 12px 18px 8px 18px
-    float: left
+    margin-bottom: 12px
+    float: right
 
-    &.current
-      border-bottom: 4px solid rgba(1, 88, 126, 0.2)
-      
+  submitBy
+    text-transform: none
+    font-style: italic
 
   description
     width: 640px

@@ -1,15 +1,16 @@
 import React from 'react';
 import Radium, {Style} from 'radium';
-import {Route, Switch} from 'react-router';
+import {Route, Switch} from 'react-router-dom';
 import styler from 'react-styling';
 
-import {Home, Challenge} from './components';
+import {Home, Challenge, UserBar} from './components';
 
 export default class App extends React.Component {
   render() {
     return (
       <div style={styles.app}>
         <Style rules={styles.appRules}/>
+        <UserBar/>
         <Switch>
           <Route exact path='/' component={Home}/>
           <Route path='/challenge' component={Challenge}/>
@@ -27,7 +28,7 @@ const styles = styler`
     font-size: 15px
     letter-spacing: 0.4px
     line-height: 1.5em
-    color: rgba(24,50,80,1)
+    color: rgba(51,88,126,1)
     display: flex
     flex-direction: column
     align-items: center
@@ -41,10 +42,11 @@ const styles = styler`
     h1
       font-family: 'mr-eaves-xl-sans', sans-serif
     a
-      color: rgba(255,255,255,1)
+      color: inherit
       text-decoration: none
       font-weight: bold
 
     ::-webkit-input-placeholder
-      color: rgba(255,255,255,0.5)
+      font-style: italic
+      color: rgba(24,50,80,0.5)
 `;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Route} from 'react-router';
+import {Route} from 'react-router-dom';
 import {createStore, applyMiddleware, combineReducers} from 'redux';
 import {Provider} from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
@@ -28,9 +28,9 @@ export default class Root extends React.Component {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-	  <div>
-	    <Route component={App}/>
-	  </div>
+          <div>
+            <Route component={App}/>
+          </div>
         </ConnectedRouter>
       </Provider>
     );

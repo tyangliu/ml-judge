@@ -64,7 +64,7 @@ const styles = styler`
     float: left
 
   eventItem
-    width: 600px
+    width: 700px
     padding: 14px 20px
     border-top:  1px solid rgba(51,88,126,0.15)
 

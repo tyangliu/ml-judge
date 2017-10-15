@@ -3,29 +3,145 @@ import Radium from 'radium';
 import styler from 'react-styling';
 
 @Radium
-export default class ChallengeInfo extends React.Component {
+export default class Submissions extends React.Component {
   render() {
     return (
-      <div style={styles.challengeInfo}>
-        <ul style={styles.info}>
-          <li style={styles.infoItem}>
-          </li>
-        </ul>
-        <p style={styles.description}>
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-        </p>
+      <div style={styles.submissions}>
+        <div style={styles.submissionForm}>
+          <h2 style={styles.heading}>
+            Submit
+          </h2>
+          <p style={styles.paragraph}>
+            Your submission should be a zip file containing:
+          </p>
+          <ul style={styles.submissionList}>
+            <li>
+              <span style={styles.filename}>src/</span>
+              &mdash;directory containing your source code files.
+            </li>
+            <li>
+              <span style={styles.filename}>predictions.csv</span>
+              &mdash;your predictions for the test set.
+            </li>
+            <li>
+              <span style={styles.filename}>readme.txt</span>
+              &mdash;Text file with a brief summary of your approach and model.
+            </li>
+          </ul>
+          <div style={styles.upload}>
+            <i style={styles.uploadIcon} className='material-icons'>
+              file_upload
+            </i>
+            <p style={styles.uploadText}>
+              Drag or choose a file from your computer
+            </p>
+          </div>
+        </div>
+        <div style={styles.submissionHistory}>
+          <h2 style={styles.heading}>
+            History
+          </h2>
+          <table style={styles.entries}>
+            <tbody>
+              <tr style={styles.entriesHeader}>
+                <th style={styles.entriesHeaderScore}>
+                  Score
+                </th>
+                <th style={styles.entriesHeaderDatetime}>
+                  Submitted
+                </th>
+              </tr>
+              <tr style={styles.entryItem.best}>
+                <td style={styles.entryScore}>
+                  96.70
+                </td>
+                <td style={styles.entryDatetime}>
+                  2/12/2017 9:00PM
+                </td>
+              </tr>
+              <tr style={styles.entryItem}>
+                <td style={styles.entryScore}>
+                  95.74
+                </td>
+                <td style={styles.entryDatetime}>
+                  2/12/2017 9:00PM
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
 }
 
 const styles = styler`
-  challengeInfo
+  submissions
     width: 100%
 
-  description
-    width: 640px
-    margin: 0 auto
+  heading
+    font-family: 'mr-eaves-xl-sans', sans-serif
+    font-size: 22px
+    font-weight: bold
+    padding-bottom: 16px 
+    margin-bottom: 16px
+    border-bottom: 1px solid rgba(51,88,126,0.2)
+
+  paragraph
+    margin-bottom: 16px
+
+  submissionForm
+    margin-bottom: 42px
+
+  submissionList
+    list-style-type: disc
+    margin-bottom: 16px
+
+  filename
+    font-weight: bold
+
+  upload
+    width: 100%
+    background: rgba(51,88,126,0.04)
+    border: 2px dashed rgba(51,88,126,0.2)
+    text-align: center
+    font-family: 'mr-eaves-xl-sans', sans-serif
+    text-transform: uppercase
+    letter-spacing: 1px
+    font-weight: bold
+    padding: 40px 0
+    cursor: pointer
+
+  uploadIcon
+    color: rgba(51,88,126,0.8)
+    font-size: 60px
+
+  entries
+    width: 100%
+
+  entriesHeader
+    text-align: left
+    font-family: 'mr-eaves-xl-sans', sans-serif
+    font-weight: bold
+    text-transform: uppercase
+    letter-spacing: 1px
+    border-bottom: 1px solid rgba(51,88,126,0.2)
+
+  entiresHeaderScore
+    padding-bottom: 16px
+
+  entriesHeaderDatetime
+    width: 25%
+    padding-bottom: 16px
+
+  entryItem
+    line-height: 60px
+    border-bottom: 1px solid rgba(51,88,126,0.2)
+
+    &normal
+
+    &best
+      font-weight: bold
 
   clearfix
     clear: both
