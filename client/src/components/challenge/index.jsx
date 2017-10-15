@@ -1,6 +1,10 @@
 import React from 'react';
 import Radium from 'radium';
 import styler from 'react-styling';
+import {Switch, Route} from 'react-router';
+
+import ChallengeInfo from './info';
+import Leaderboard from './leaderboard';
 
 @Radium
 export default class Challenge extends React.Component {
@@ -11,12 +15,12 @@ export default class Challenge extends React.Component {
           <div style={styles.challengeHeader}>
             <p style={styles.challengeDate}>Oct 21, 2017</p>
             <h1 style={styles.title}>
-              Titanic Survivors
+              Meme
             </h1>
           </div>
           <div style={styles.challengeNavContainer}>
             <ul style={styles.challengeNav}>
-              <li style={styles.navItem}>
+              <li style={styles.navItem.current}>
                 Challenge
               </li>
               <li style={styles.navItem}>
@@ -32,9 +36,10 @@ export default class Challenge extends React.Component {
             <div style={styles.clearfix}/>
           </div>
 					<div style={styles.body}>
-						<p style={styles.description}>
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-            </p>
+            <Switch>
+              <Route path='/' component={ChallengeInfo}/>
+              <Route path='/leaderboard' component={Leaderboard}/>
+            </Switch>
 					</div>
         </div>
       </div>
@@ -71,6 +76,7 @@ const styles = styler`
     margin-bottom: 36px
 
   challengeNav
+    font-family: 'mr-eaves-xl-sans', sans-serif
     float: right
 
   navItem
@@ -78,8 +84,12 @@ const styles = styler`
     text-transform: uppercase
     letter-spacing: 1px
     font-weight: bold
-    padding: 12px 0 12px 36px
+    padding: 12px 18px 8px 18px
     float: left
+
+    &.current
+      border-bottom: 4px solid rgba(1, 88, 126, 0.2)
+      
 
   description
     width: 640px

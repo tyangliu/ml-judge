@@ -23,7 +23,7 @@ export default class App extends React.Component {
 const styles = styler`
   app
     background: rgba(0,0,0,0.03)
-    font-family: 'mr-eaves-xl-sans', sans-serif
+    font-family: 'alda', serif
     font-size: 15px
     letter-spacing: 0.4px
     line-height: 1.5em
@@ -37,6 +37,9 @@ const styles = styler`
   appRules 
     *
       box-sizing: border-box
+
+    h1
+      font-family: 'mr-eaves-xl-sans', sans-serif
     a
       color: rgba(255,255,255,1)
       text-decoration: none

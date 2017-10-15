@@ -84,6 +84,7 @@ const styles = styler`
 
   eventItemInProgress
     font-size: 11px
+    font-family: 'mr-eaves-xl-sans', sans-serif
     line-height: 11px
     padding: 4px 5px
     border-radius: 2px
