@@ -80,6 +80,8 @@ const styles = styler`
     margin-bottom: 6px
 
   eventItemTitle
+    font-family: 'mr-eaves-xl-sans', sans-serif
+    font-size: 18px
     font-weight: bold
 
   eventItemInProgress

@@ -65,7 +65,6 @@ const styles = styler`
   challengeDeadline 
     font-size: 14px
     text-transform: uppercase
-    letter-spacing: 1px
     margin-bottom: 12px
     float: right
 
