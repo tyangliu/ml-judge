@@ -21,6 +21,13 @@ def challenges(app, db):
             raise ServerError(
                 'Multiple challenges matched - ids are not unique.',
                 status_code=500)
+    
+    @app.route('/challenges/<challenge_id>/leaderboard', methods=['GET'])
+    async def challenge_leaderboard_handler(request, challenge_id):
+        '''
+        Responds with the leaderboard for the specific challenge_id.
+        '''
+        return response.json({})
 
     @app.route('/challenges/<challenge_id>/submissions/<user_token>', methods=['GET'])
     async def challenge_submissions_handler(request, challenge_id, user_token):

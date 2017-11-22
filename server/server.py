@@ -12,7 +12,7 @@ db = TinyDB(DB_PATH)
 
 home(app, db)
 challenges(app, db)
-# users(app, db)
+users(app, db)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
