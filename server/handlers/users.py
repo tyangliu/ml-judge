@@ -1,4 +1,5 @@
 import datetime
+import secrets
 from passlib.hash import pbkdf2_sha256
 from sanic import response
 from sanic.exceptions import ServerError
@@ -57,12 +58,32 @@ def users(app, db):
         # Generate token that expires in 24 hours or when user presses logout,
         # invalidate existing tokens for this user.
         # TODO
+        token = secrets.token_urlsafe(22)
+        token_data = {
+            'username': data['username'],
+            'token': token,
+            # TODO: make sure these can be deserialized.
+            'created_at': str(datetime.datetime.now()),
+            'expires_at': str(datetime.datetime.now()),
+        }
 
-        return response.json({})
+        user_tokens_tbl.upsert(token_data, User.username == data['username'])
+
+        return response.json(token_data)
 
     @app.route('/logout', methods=['POST'])
     async def logout_handler(request):
         '''
         Invalidate existing tokens for the user.
         '''
+        data = request.json
+
+        # TODO: Validate data.
+        if not True:
+            raise ServerError('Invalid form submission.', status_code=404)
+
+        Token = Query()
+
+        user_tokens_tbl.remove(Token.token == data['token'])
+
         return response.json({})
