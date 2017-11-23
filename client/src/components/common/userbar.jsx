@@ -1,21 +1,57 @@
 import React from 'react';
 import Radium from 'radium';
 import styler from 'react-styling';
+import {connect} from 'react-redux';
+import debounce from 'debounce';
 
 import Login from './login';
 import Account from './account';
 
+import {
+  fetchLogin,
+  fetchLogout,
+  retrieveToken,
+} from '../../redux/actions';
+
 @Radium
-export default class UserBar extends React.Component {
+class UserBar extends React.Component {
+  componentWillMount() {
+    this.props.getToken();
+  }
+
   render() {
-    const isLoggedIn = false;
+    const {user, login, logout} = this.props;
+    const isLoggedIn = user != null;
     return (
       <div style={styles.userbar}>
-        {isLoggedIn ? <Account/> : <Login/>}
+        {isLoggedIn
+          ? <Account user={user} logout={logout}/>
+          : <Login login={login}/>
+        }
       </div>
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  const {user} = state;
+  return {
+    user,
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    getToken: debounce(() => dispatch(retrieveToken()), 100),
+    login: debounce((username, password) => dispatch(fetchLogin(username, password)), 100),
+    logout: debounce(token => dispatch(fetchLogout(token)), 100),
+  }
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(UserBar);
 
 const styles = styler`
   userbar

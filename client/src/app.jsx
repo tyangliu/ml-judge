@@ -13,7 +13,7 @@ export default class App extends React.Component {
         <UserBar/>
         <Switch>
           <Route exact path='/' component={Home}/>
-          <Route path='/challenge' component={Challenge}/>
+          <Route path='/challenges/:challengeId' component={Challenge}/>
         </Switch>
         {this.props.children}
       </div>

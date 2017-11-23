@@ -1,10 +1,47 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import Radium from 'radium';
 import styler from 'react-styling';
+import {connect} from 'react-redux';
+import debounce from 'debounce';
+import XDate from 'xdate';
+
+import {fetchChallengesList} from '../../redux/actions';
 
 @Radium
-export default class Home extends React.Component {
+class Home extends React.Component {
+  componentWillMount() {
+    this.props.getChallengesList();
+  }
+
   render() {
+    const {challengesList} = this.props;
+
+    const events = challengesList.map((challenge, i) => {
+      const date = new XDate(challenge.date);
+      const dueDate = new XDate(challenge.due_date);
+
+      const isLast = i === challengesList.length - 1;
+      const isInProgress = new XDate() < dueDate;
+      const formattedDate = date.toString('MMM d, yyyy');
+
+      return (
+        <li style={styles.eventItem[isLast ? 'last' : 'normal']}
+            key={challenge.id}>
+          {isInProgress
+            ? <div style={styles.eventItemInProgress}>In Progress</div>
+            : null
+          }
+          <p style={styles.eventItemDate}>{formattedDate}</p>
+          <Link to={`/challenges/${challenge.id}`}>
+            <h2 style={styles.eventItemTitle}>
+              {challenge.title}
+            </h2>
+          </Link>
+        </li>
+      );
+    });
+
     return (
       <div style={styles.home}>
         <div style={styles.homeContainer}>
@@ -12,33 +49,31 @@ export default class Home extends React.Component {
             ml @ ubc
           </h1>
           <ul style={styles.eventList}>
-            <li style={styles.eventItem.normal}>
-              <div style={styles.eventItemInProgress}>
-                In Progress
-              </div>
-              <p style={styles.eventItemDate}>Oct 21, 2017</p>
-              <h2 style={styles.eventItemTitle}>
-                Titanic Survivors
-              </h2>
-            </li>
-            <li style={styles.eventItem.normal}>
-              <p style={styles.eventItemDate}>Sept 21, 2017</p>
-              <h2 style={styles.eventItemTitle}>
-                Animal Zoo
-              </h2>
-            </li>
-            <li style={styles.eventItem.last}>
-              <p style={styles.eventItemDate}>Sept 14, 2017</p>
-              <h2 style={styles.eventItemTitle}>
-                Food
-              </h2>
-            </li>
+            {events}
           </ul>
         </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  const {challengesList} = state;
+  return {
+    challengesList,
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    getChallengesList: debounce(() => dispatch(fetchChallengesList()), 100),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Home);
 
 const styles = styler`
   home

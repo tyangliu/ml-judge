@@ -13,6 +13,7 @@ CHALLENGES_DIR = 'challenges/'
 EVALUATE_FILE = 'evaluate.py'
 
 def challenges(app, db):
+    challenges_list_tbl = db.table('challenges_list')
     challenges_tbl = db.table('challenges')
     user_tokens_tbl = db.table('user_tokens')
 
@@ -31,7 +32,12 @@ def challenges(app, db):
         return db.table(table_key)
 
 
-    @app.route('/challenges/<challenge_id>', methods=['GET'])
+    @app.route('/challenges', methods=['GET', 'OPTIONS'])
+    async def challenges_handler(request):
+        return response.json(challenges_list_tbl.all())
+
+
+    @app.route('/challenges/<challenge_id>', methods=['GET', 'OPTIONS'])
     async def challenge_handler(request, challenge_id):
         '''
         Responds with the content of a single challenge for the requested challenge_id.
@@ -49,7 +55,7 @@ def challenges(app, db):
         return response.json(results[0])
     
 
-    @app.route('/challenges/<challenge_id>/leaderboard', methods=['GET'])
+    @app.route('/challenges/<challenge_id>/leaderboard', methods=['GET', 'OPTIONS'])
     async def challenge_leaderboard_handler(request, challenge_id):
         '''
         Responds with the leaderboard for the specific challenge_id.
@@ -62,7 +68,7 @@ def challenges(app, db):
         return response.json({})
 
 
-    @app.route('/challenges/<challenge_id>/submissions/<user_token>', methods=['GET'])
+    @app.route('/challenges/<challenge_id>/submissions/<user_token>', methods=['GET', 'OPTIONS'])
     async def challenge_submissions_handler(request, challenge_id, user_token):
         '''
         Responds with the user submission history for the specific challenge_id.
@@ -129,7 +135,7 @@ def challenges(app, db):
                 'username': username,
                 'sub_id': sub_id,
                 'score': score,
-                'created_at': str(datetime.datetime.now()),
+                'created_at': datetime.datetime.now().isoformat(),
             }
             submissions_tbl.insert(submission_obj)
 

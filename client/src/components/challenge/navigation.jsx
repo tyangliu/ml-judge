@@ -10,33 +10,39 @@ import Leaderboard from './leaderboard';
 export default class ChallengeNavigation extends React.Component {
   links = [
     {
-      path: '/challenge',
+      path: '',
       display: 'Challenge',
     },
     {
-      path: '/challenge/resources',
+      path: '/resources',
       display: 'Resources',
     },
     {
-      path: '/challenge/submissions',
+      path: '/submissions',
       display: 'Submissions',
     },
     {
-      path: '/challenge/leaderboard',
+      path: '/leaderboard',
       display: 'Leaderboard',
     }, 
   ];
 
   render() { 
-    const links = this.links.map(link =>
-      <li style={
-          styles.navItem[link.path === this.props.location.pathname ? 'current' : 'normal']
-      } key={link.path}>
-        <Link to={link.path} style={styles.navItemLink}>
-          {link.display}
-        </Link>
-      </li>
-    );
+    const {match: {params}} = this.props;
+    const basePath = `/challenges/${params.challengeId}`;
+
+    const links = this.links.map(link => {
+      const linkPath = basePath + link.path;
+      return (
+        <li style={
+            styles.navItem[linkPath === this.props.location.pathname ? 'current' : 'normal']
+        } key={link.path}>
+          <Link to={linkPath} style={styles.navItemLink}>
+            {link.display}
+          </Link>
+        </li>
+      );
+    });
     return (
       <div style={styles.challengeNavContainer}>
         <ul style={styles.challengeNav}>

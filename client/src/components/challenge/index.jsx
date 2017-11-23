@@ -1,7 +1,12 @@
 import React from 'react';
-import Radium from 'radium';
+import Radium, {Style} from 'radium';
 import styler from 'react-styling';
 import {Switch, Route, Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import debounce from 'debounce';
+import XDate from 'xdate';
+
+import {fetchChallenge} from '../../redux/actions';
 
 import ChallengeNavigation from './navigation';
 import ChallengeInfo from './info';
@@ -9,27 +14,45 @@ import Leaderboard from './leaderboard';
 import Submissions from './submissions';
 
 @Radium
-export default class Challenge extends React.Component {
+class Challenge extends React.Component {
+  componentWillMount() {
+    const {match: {params}, getChallenge} = this.props;
+    getChallenge(params.challengeId);
+  }
+
   render() {
-    console.log(this.props.routes);
+    const {challenges, match: {params}} = this.props;
+    const challenge = challenges[params.challengeId];
+
+    if (challenge == null) {
+      return <div/>;
+    }
+
+    const basePath = `/challenges/${params.challengeId}`;
+    const date = new XDate(challenge.date);
+    const dueDate = new XDate(challenge.due_date);
+    const formattedDate = date.toString('MMM d, yyyy');
+    const formattedDueDate = dueDate.toString('MMM d, yyyy h:mm TT');
+
     return (
       <div style={styles.challenge}>
+        <Style rules={styles.challengeRules}/>
         <div style={styles.challengeContainer}>
           <div style={styles.challengeHeader}>
             <p style={styles.challengeDeadline}>
-              <span style={styles.submitBy}>Submit By:</span> Oct 28, 2017 9:00PM
+              <span style={styles.submitBy}>Submit By:</span> {formattedDueDate}
             </p>
-            <p style={styles.challengeDate}>Oct 21, 2017</p>
+            <p style={styles.challengeDate}>{formattedDate}</p>
             <h1 style={styles.title}>
-              Titanic Survivors
+              {challenge.title}
             </h1>
           </div>
           <Route component={ChallengeNavigation}/>
 					<div style={styles.body}>
             <Switch>
-              <Route exact path='/challenge' component={ChallengeInfo}/>
-              <Route path='/challenge/leaderboard' component={Leaderboard}/>
-              <Route path='/challenge/submissions' component={Submissions}/>
+              <Route exact path={basePath} render={() => <ChallengeInfo challenge={challenge}/>}/>
+              <Route path={`${basePath}/leaderboard`} render={() => <Leaderboard challenge={challenge}/>}/>
+              <Route path={`${basePath}/submissions`} render={() => <Submissions challenge={challenge}/>}/>
             </Switch>
 					</div>
         </div>
@@ -37,6 +60,24 @@ export default class Challenge extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  const {challenges} = state;
+  return {
+    challenges,
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    getChallenge: debounce(challengeId => dispatch(fetchChallenge(challengeId)), 100),
+  }
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Challenge);
 
 const styles = styler`
   challenge
@@ -78,4 +119,15 @@ const styles = styler`
 
   clearfix
     clear: both
+
+  challengeRules
+    h1
+      font-family: 'mr-eaves-xl-sans', sans-serif
+      font-weight: bold
+      font-size: 22px
+      line-height: 36px
+      margin-bottom: 4px
+
+    p
+      margin-bottom: 26px
 `;

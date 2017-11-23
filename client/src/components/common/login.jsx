@@ -4,6 +4,20 @@ import styler from 'react-styling';
 
 @Radium
 export default class Login extends React.Component {
+  state = {
+    username: '',
+    password: '',
+  };
+
+  onSubmit = () => {
+    const {login} = this.props;
+    const {username, password} = this.state;
+    if (username == '' || password == '') {
+      return;
+    }
+    login(username, password);
+  };
+
   render() {
     return (
       <div style={styles.login}>
@@ -11,9 +25,25 @@ export default class Login extends React.Component {
           Create Account
         </button>
         <form style={styles.loginForm}>
-          <input style={styles.loginInput} type='text' name='username' placeholder='Username'/>
-          <input style={styles.loginInput} type='password' name='password' placeholder='Password'/>
-          <input style={styles.loginButton} type='button' value='Sign In'/>
+          <input
+            style={styles.loginInput}
+            type='text'
+            name='username'
+            placeholder='Username'
+            onChange={event => this.setState({username: event.target.value})}
+          />
+          <input
+            style={styles.loginInput}
+            type='password'
+            name='password'
+            placeholder='Password'
+            onChange={event => this.setState({password: event.target.value})}
+          />
+          <input
+            style={styles.loginButton}
+            type='button' value='Sign In'
+            onClick={this.onSubmit}
+          />
         </form>
       </div>
     );

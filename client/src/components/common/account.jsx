@@ -4,15 +4,21 @@ import styler from 'react-styling';
 
 @Radium
 export default class Account extends React.Component {
+  onLogout = () => {
+    const {user, logout} = this.props;
+    logout(user.token);
+  };
+
   render() {
+    const {user} = this.props;
     return (
       <div style={styles.account}>
-        <button style={styles.logoutButton}>
+        <button style={styles.logoutButton} onClick={this.onLogout}>
           Sign Out
         </button>
         <div style={styles.accountName}>
           <span style={styles.greeting}>Hi</span>&nbsp;
-          <span style={styles.username}>Potato</span>!
+          <span style={styles.username}>{user.username}</span>!
         </div>
       </div>
     );

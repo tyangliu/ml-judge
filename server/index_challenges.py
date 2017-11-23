@@ -1,5 +1,7 @@
 import frontmatter
 import os
+from pytz import timezone
+import datetime
 from tinydb import TinyDB, Query
 
 ROOT_DIR = 'challenges/'
@@ -43,13 +45,23 @@ def save(path, desc, res, sub):
     db = TinyDB(DB_PATH)
     Challenge = Query()
 
+    date = datetime.datetime.combine(
+      desc['date'],
+      datetime.datetime.min.time(),
+    ).astimezone(timezone('US/Pacific'))
+
+    due_date = datetime.datetime.combine(
+      desc['due-date'],
+      datetime.datetime.min.time(),
+    ).astimezone(timezone('US/Pacific'))
+
     challenges = db.table('challenges')
     challenges.upsert({
         'id': desc['id'],
         'path': path,
         'title': desc['title'],
-        'date': str(desc['date']),
-        'due_date': str(desc['due-date']),
+        'date': date.isoformat(),
+        'due_date': due_date.isoformat(),
         'difficulty': desc['difficulty'],
         'type': desc['type'],
         'description': desc.content,
@@ -61,6 +73,6 @@ def save(path, desc, res, sub):
     challenges_list.upsert({
         'id': desc['id'],
         'title': desc['title'],
-        'date': str(desc['date']),
-        'due_date': str(desc['due-date']),
+        'date': date.isoformat(),
+        'due_date': due_date.isoformat(),
     }, Challenge.id == desc['id'])

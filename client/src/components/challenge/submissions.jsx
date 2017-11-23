@@ -112,6 +112,9 @@ const styles = styler`
     padding: 40px 0
     cursor: pointer
 
+  uploadText
+    margin-bottom: 0
+
   uploadIcon
     color: rgba(51,88,126,0.8)
     font-size: 60px
