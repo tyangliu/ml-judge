@@ -10,12 +10,36 @@ score-order: default
 
 # Background
 
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+The sinking of the RMS Titanic is one of the deadliest maritime tragedies.
+During her maiden voyage, the Titanic sank after colliding with an iceberg,
+killing 1502 out of 2224 passengers and crew. Amongst others, one of the main
+reasons for the large number of casualties was the lack of lifeboats. Although
+there was some luck involved, policies like ``women and children first '' meant
+that some groups of people were more likely to survive than others.
+
+
+In this challenge, your goal is to predict which passengers survived the
+tragedy.
 
 # Input Data
 
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+The input data is a csv file with passenger information as follows:
+
+| Variable | Definition                        | Notes                                    |
+| -------- | ----------------------------      | ------                                   |
+| survival | whether a passenger survived      | 0 = no, 1 = yes; not present in test set |
+| pclass   | ticket class                      | could be 1, 2, 3                         |
+| sex      | sex                               |                                          |
+| Age      | age in years                      |                                          |
+| sibsp    | # of siblings / spouses on board  |                                          |
+| parch    | # of parents / children on board  |                                          |
+| ticket   | ticket number                     |                                          |
+| fare     | ticket fare                       |                                          |
+| cabin    | cabin number                      |                                          |
+| embarked | port of embarkation               | C=Cherbourg, Q=Queenstown, S=Southampton |
 
 # Scoring
 
-Your score for this challenge will be the percentage of correct predictions on the test set, rounded to nearest 10th of a percent (same scores post-rounding will be tied).
+Your score for this challenge will be the percentage of correct predictions on
+the test set, rounded to nearest 10th of a percent (same scores post-rounding
+will be tied).
