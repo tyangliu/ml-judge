@@ -25,18 +25,18 @@ tragedy.
 
 The input data is a csv file with passenger information as follows:
 
-| Variable | Definition                        | Notes                                    |
-| -------- | ----------------------------      | ------                                   |
-| survival | whether a passenger survived      | 0 = no, 1 = yes; not present in test set |
-| pclass   | ticket class                      | could be 1, 2, 3                         |
-| sex      | sex                               |                                          |
-| Age      | age in years                      |                                          |
-| sibsp    | # of siblings / spouses on board  |                                          |
-| parch    | # of parents / children on board  |                                          |
-| ticket   | ticket number                     |                                          |
-| fare     | ticket fare                       |                                          |
-| cabin    | cabin number                      |                                          |
-| embarked | port of embarkation               | C=Cherbourg, Q=Queenstown, S=Southampton |
+| Variable | Definition                        | Notes                                    |  
+| -------- | ----------------------------      | ------                                   |  
+| survival | whether a passenger survived      | 0 = no, 1 = yes; not present in test set |  
+| pclass   | ticket class                      | could be 1, 2, 3                         |  
+| sex      | sex                               |                                          |  
+| Age      | age in years                      |                                          |  
+| sibsp    | # of siblings / spouses on board  |                                          |  
+| parch    | # of parents / children on board  |                                          |  
+| ticket   | ticket number                     |                                          |  
+| fare     | ticket fare                       |                                          |  
+| cabin    | cabin number                      |                                          |  
+| embarked | port of embarkation               | C=Cherbourg, Q=Queenstown, S=Southampton |  
 
 # Scoring
 
