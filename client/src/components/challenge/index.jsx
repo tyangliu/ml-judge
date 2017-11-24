@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import debounce from 'debounce';
 import XDate from 'xdate';
 
-import {fetchChallenge} from '../../redux/actions';
+import {fetchChallenge, submitChallenge} from '../../redux/actions';
 
 import ChallengeNavigation from './navigation';
 import ChallengeInfo from './info';
@@ -21,7 +21,7 @@ class Challenge extends React.Component {
   }
 
   render() {
-    const {challenges, match: {params}} = this.props;
+    const {challenges, sendChallenge, user, match: {params}} = this.props;
     const challenge = challenges[params.challengeId];
 
     if (challenge == null) {
@@ -51,8 +51,16 @@ class Challenge extends React.Component {
 					<div style={styles.body}>
             <Switch>
               <Route exact path={basePath} render={() => <ChallengeInfo challenge={challenge}/>}/>
-              <Route path={`${basePath}/leaderboard`} render={() => <Leaderboard challenge={challenge}/>}/>
-              <Route path={`${basePath}/submissions`} render={() => <Submissions challenge={challenge}/>}/>
+              <Route path={`${basePath}/leaderboard`} render={() =>
+                <Leaderboard challenge={challenge}/>
+              }/>
+              <Route path={`${basePath}/submissions`} render={() =>
+                <Submissions
+                  challenge={challenge}
+                  sendChallenge={sendChallenge}
+                  user={user}
+                />
+              }/>
             </Switch>
 					</div>
         </div>
@@ -62,15 +70,20 @@ class Challenge extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const {challenges} = state;
+  const {challenges, user} = state;
   return {
     challenges,
+    user,
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getChallenge: debounce(challengeId => dispatch(fetchChallenge(challengeId)), 100),
+    sendChallenge: debounce((challengeId, token, file) =>
+      dispatch(submitChallenge(challengeId, token, file)),
+      100,
+    ),
   }
 };
 

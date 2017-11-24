@@ -9,6 +9,7 @@ def users(app, db):
     users_tbl = db.table('users')
     user_tokens_tbl = db.table('user_tokens')
 
+
     @app.route('/users', methods=['POST'])
     async def users_register_handler(request):
         data = request.json
@@ -33,6 +34,7 @@ def users(app, db):
         })
 
         return response.json({})
+
 
     @app.route('/login', methods=['POST'])
     async def login_handler(request):
@@ -71,6 +73,7 @@ def users(app, db):
 
         return response.json(token_data)
 
+
     @app.route('/logout', methods=['POST'])
     async def logout_handler(request):
         '''
@@ -87,3 +90,28 @@ def users(app, db):
         user_tokens_tbl.remove(Token.token == data['token'])
 
         return response.json({})
+
+
+    @app.route('/validate_token', methods=['POST'])
+    async def validate_token_handler(request):
+      '''
+      Check token validity for the user.
+      '''
+      data = request.json 
+
+      # TODO: Validate data.
+      if not True:
+        raise ServerError('Invalid form submission.', status_code=404)
+
+      Token = Query()
+      results = user_tokens_tbl.search(
+          (Token.token == data['token']) &
+          (Token.username == data['username'])
+      )
+
+      if not len(results) == 1:
+        return response.json({'is_valid': False})
+
+      # TODO: Check expiration.
+
+      return response.json({'is_valid': True})

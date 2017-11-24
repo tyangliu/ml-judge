@@ -18,7 +18,8 @@ import {
   REQUEST_LOGOUT,
   RECEIVE_LOGOUT,
 
-  RETRIEVE_TOKEN,
+  REQUEST_TOKEN_VALIDATE,
+  RECEIVE_TOKEN_VALIDATE,
 } from './actions';
 
 function challengesList(state = [], action) {
@@ -86,13 +87,13 @@ function signup(state = {}, action) {
 function user(state = null, action) {
   switch (action.type) {
     case REQUEST_LOGIN:
-      return null;
-    case RETRIEVE_TOKEN:
-    case RECEIVE_LOGIN:
-      return action.token;
     case REQUEST_LOGOUT:
     case RECEIVE_LOGOUT:
+    case REQUEST_TOKEN_VALIDATE:
       return null;
+    case RECEIVE_TOKEN_VALIDATE:
+    case RECEIVE_LOGIN:
+      return action.token;
     default:
       return state;
   }

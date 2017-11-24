@@ -22,10 +22,11 @@ export const RECEIVE_LOGIN = 'RECEIVE_LOGIN';
 export const REQUEST_LOGOUT = 'REQUEST_LOGOUT';
 export const RECEIVE_LOGOUT = 'RECEIVE_LOGOUT';
 
-export const RETRIEVE_TOKEN = 'RETRIEVE_TOKEN';
+export const REQUEST_TOKEN_VALIDATE = 'REQUEST_TOKEN_VALIDATE';
+export const RECEIVE_TOKEN_VALIDATE = 'RECEIVE_TOKEN_VALIDATE';
 
-export const REQUEST_SUBMISSION = 'REQUEST_SUBMISSION';
-export const RECEIVE_SUBMISSION = 'RECEIVE_SUBMISSION';
+export const REQUEST_SUBMIT_CHALLENGE = 'REQUEST_SUBMIT_CHALLENGE';
+export const RECEIVE_SUBMIT_CHALLENGE = 'RECEIVE_SUBMIT_CHALLENGE';
 
 const TOKEN_KEY = 'USER_TOKEN';
 
@@ -122,17 +123,49 @@ export function receiveLogout() {
   };
 }
 
-export function retrieveToken() {
-  const user = localStorage.getItem(TOKEN_KEY);
+export function requestTokenValidate(token) {
   return {
-    type: RETRIEVE_TOKEN,
-    token: user && JSON.parse(user),
+    type: REQUEST_TOKEN_VALIDATE,
+    token,
+  };
+}
+
+export function receiveTokenValidate(token) {
+  return {
+    type: RECEIVE_TOKEN_VALIDATE,
+    token,
+  };
+}
+
+export function retrieveToken() {
+  const fullUrl = `${url}/validate_token`;
+  const user = localStorage.getItem(TOKEN_KEY);
+
+  return async dispatch => {
+    if (!user) {
+      return;
+    }
+    const token = JSON.parse(user);
+    dispatch(requestTokenValidate(token));
+    const response = await fetch(fullUrl, {
+      method: 'POST',
+      body: JSON.stringify({
+        username: token.username,
+        token: token.token,
+      }),
+    });
+    const result = await response.json();
+    if (result.is_valid) {
+      dispatch(receiveTokenValidate(token));
+    } else {
+      localStorage.removeItem(TOKEN_KEY);
+    }
   };
 }
 
 export function fetchLogout(token) {
   const fullUrl = `${url}/logout`;
-  return async dispatch => {;
+  return async dispatch => {
     dispatch(requestLogout());
     localStorage.removeItem(TOKEN_KEY);
     const response = await fetch(fullUrl, {
@@ -142,5 +175,41 @@ export function fetchLogout(token) {
       }),
     });
     dispatch(receiveLogout());
-  } 
+  };
+}
+
+export function requestSubmitChallenge() {
+  return {
+    type: REQUEST_SUBMIT_CHALLENGE,
+  };
+}
+
+export function receiveSubmitChallenge(result) {
+  return {
+    type: RECEIVE_SUBMIT_CHALLENGE,
+    result,
+  };
+}
+
+export function submitChallenge(challengeId, token, file) {
+  const fullUrl = `${url}/challenges/${challengeId}/submissions/${token}`;
+
+  return async dispatch => {
+    dispatch(requestSubmitChallenge()); 
+    const fileReader = new FileReader();
+    if (!fileReader || !file) {
+      return;
+    }
+    fileReader.readAsArrayBuffer(file);
+    fileReader.onload = async () => {
+      const data = fileReader.result;
+      const response = await fetch(fullUrl, {
+        method: 'POST',
+        body: data,
+      });
+      const result = await response.json();
+      console.log(result);
+      dispatch(receiveSubmitChallenge(result));
+    };
+  };  
 }

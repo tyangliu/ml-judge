@@ -1,10 +1,41 @@
 import React from 'react';
 import Radium from 'radium';
 import styler from 'react-styling';
+import Dropzone from 'react-dropzone';
+
+const MAX_SIZE = 50 * Math.pow(10, 6);
+const ACCEPT = 'application/zip,application/x-zip, application/x-zip-compressed';
 
 @Radium
 export default class Submissions extends React.Component {
+  state = {
+    files: [],
+  };
+
+  onDrop = files => {
+    this.setState({files});
+  };
+
+  onSubmit = () => {
+    const {challenge, user, sendChallenge} = this.props;
+
+    if (user == null) {
+      return;
+    }
+
+    const {files} = this.state;
+    if (files.length != 1) {
+      return;
+    }    
+    console.log('hi');
+    
+    sendChallenge(challenge.id, user.token, files[0]);
+  };
+
   render() {
+    const {files} = this.state;
+    const file = files.length == 1 ? files[0] : null;
+
     return (
       <div style={styles.submissions}>
         <div style={styles.submissionForm}>
@@ -28,14 +59,31 @@ export default class Submissions extends React.Component {
               &mdash;Text file with a brief summary of your approach and model.
             </li>
           </ul>
-          <div style={styles.upload}>
+          <Dropzone
+            style={styles.upload}
+            multiple={false}
+            accept={ACCEPT}
+            maxSize={MAX_SIZE}
+            onDrop={this.onDrop}
+          >
             <i style={styles.uploadIcon} className='material-icons'>
               file_upload
             </i>
-            <p style={styles.uploadText}>
-              Drag or choose a file from your computer
-            </p>
-          </div>
+            {file == null
+              ? <p style={styles.uploadText}>
+                  Drag or choose a file from your computer
+                </p>
+              : <p style={styles.uploadText}>
+                  {file.name}
+                </p>
+            }
+          </Dropzone>
+          <button
+            style={styles.submitButton}
+            onClick={this.onSubmit}
+          >
+            Submit
+          </button>
         </div>
         <div style={styles.submissionHistory}>
           <h2 style={styles.heading}>
@@ -118,6 +166,21 @@ const styles = styler`
   uploadIcon
     color: rgba(51,88,126,0.8)
     font-size: 60px
+
+  submitButton
+    display: block
+    margin: 20px auto
+    outline: none
+    border: none
+    font-family: 'mr-eaves-xl-sans', sans-serif
+    font-size: inherit
+    font-weight: bold
+    text-transform: uppercase
+    letter-spacing: 1px
+    color: rgba(255,255,255,1)
+    background: rgba(51,88,126,1)
+    padding: 9px 14px
+    border-radius: 2px
 
   entries
     width: 100%

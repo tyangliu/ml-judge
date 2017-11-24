@@ -28,7 +28,7 @@ def challenges(app, db):
         if not len(results) == 1:
             raise ServerError('Invalid challenge_id.', status_code=404)
 
-        table_key = SUB_TABLE_PREFIX + hashlib.sha1(challenge_id.encode('utf-8'))
+        table_key = SUB_TABLE_PREFIX + hashlib.sha1(challenge_id.encode('utf-8')).hexdigest()
         return db.table(table_key)
 
 
@@ -95,7 +95,7 @@ def challenges(app, db):
         '''
         Challenge = Query()
         challenge_results = challenges_tbl.search(Challenge.id == challenge_id)
-        curr_challenge = challenges_results[0]
+        curr_challenge = challenge_results[0]
 
         if len(challenge_results) != 1:
             raise ServerError('Invalid challenge_id.', status_code=404)
