@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import Radium from 'radium';
+import DocumentTitle from 'react-document-title';
 import styler from 'react-styling';
 import {connect} from 'react-redux';
 import debounce from 'debounce';
@@ -43,16 +44,18 @@ class Home extends React.Component {
     });
 
     return (
-      <div style={styles.home}>
-        <div style={styles.homeContainer}>
-          <h1 style={styles.title}>
-            ml @ ubc
-          </h1>
-          <ul style={styles.eventList}>
-            {events}
-          </ul>
+      <DocumentTitle title={'ml@UBC'}>
+        <div style={styles.home}>
+          <div style={styles.homeContainer}>
+            <h1 style={styles.title}>
+              ml @ ubc
+            </h1>
+            <ul style={styles.eventList}>
+              {events}
+            </ul>
+          </div>
         </div>
-      </div>
+      </DocumentTitle>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import Radium from 'radium';
 import styler from 'react-styling';
+import DocumentTitle from 'react-document-title';
 import {connect} from 'react-redux';
 import debounce from 'debounce';
 
@@ -25,41 +26,43 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <div style={styles.signup}>
-        <div style={styles.signupContainer}>
-          <h1 style={styles.title}>
-            Create Account
-          </h1>
-          <form style={styles.signupForm}> 
-            <input
-              style={styles.signupInput}
-              type='text'
-              name='username'
-              placeholder='Username'
-              onChange={event => this.setState({username: event.target.value})}
-            /> 
-            <input
-              style={styles.signupInput}
-              type='text'
-              name='email'
-              placeholder='Email'
-              onChange={event => this.setState({email: event.target.value})}
-            />
-            <input
-              style={styles.signupInput}
-              type='password'
-              name='password'
-              placeholder='Password'
-              onChange={event => this.setState({password: event.target.value})}
-            /> 
-            <input
-              style={styles.signupButton}
-              type='button' value='Sign Up'
-              onClick={this.onSubmit}
-            />
-          </form>
+      <DocumentTitle title={'Create Account - ml@UBC'}>
+        <div style={styles.signup}>
+          <div style={styles.signupContainer}>
+            <h1 style={styles.title}>
+              Create Account
+            </h1>
+            <form style={styles.signupForm}> 
+              <input
+                style={styles.signupInput}
+                type='text'
+                name='username'
+                placeholder='Username'
+                onChange={event => this.setState({username: event.target.value})}
+              /> 
+              <input
+                style={styles.signupInput}
+                type='text'
+                name='email'
+                placeholder='Email'
+                onChange={event => this.setState({email: event.target.value})}
+              />
+              <input
+                style={styles.signupInput}
+                type='password'
+                name='password'
+                placeholder='Password'
+                onChange={event => this.setState({password: event.target.value})}
+              /> 
+              <input
+                style={styles.signupButton}
+                type='button' value='Sign Up'
+                onClick={this.onSubmit}
+              />
+            </form>
+          </div>
         </div>
-      </div>
+      </DocumentTitle>
     );
   }
 }
