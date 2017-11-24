@@ -1,5 +1,5 @@
 import datetime
-import secrets
+import uuid
 from passlib.hash import pbkdf2_sha256
 from sanic import response
 from sanic.exceptions import ServerError
@@ -61,7 +61,7 @@ def users(app, db):
         # Generate token that expires in 24 hours or when user presses logout,
         # invalidate existing tokens for this user.
         # TODO
-        token = secrets.token_urlsafe(22)
+        token = uuid.uuid4().hex
         token_data = {
             'username': data['username'],
             'token': token,
