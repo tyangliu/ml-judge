@@ -4,7 +4,7 @@ import zipfile
 def evaluate(path):
     archive = zipfile.ZipFile(path, 'r')
 
-    test_labels = np.array([int(e) for e in open("test_labels.csv")])
+    test_labels = np.array([int(e) for e in open("challenges/mnist/test_labels.csv")])
     pred_labels = np.array([int(e) for e in archive.open("predictions.csv")])
 
     assert len(test_labels) == len(pred_labels), "Must have correct number of samples"
