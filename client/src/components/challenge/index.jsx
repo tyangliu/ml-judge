@@ -6,7 +6,12 @@ import {connect} from 'react-redux';
 import debounce from 'debounce';
 import XDate from 'xdate';
 
-import {fetchChallenge, submitChallenge} from '../../redux/actions';
+import {
+  fetchChallenge,
+  submitChallenge,
+  fetchSubmissions,
+  fetchLeaderboard,
+} from '../../redux/actions';
 
 import ChallengeNavigation from './navigation';
 import ChallengeInfo from './info';
@@ -21,8 +26,20 @@ class Challenge extends React.Component {
   }
 
   render() {
-    const {challenges, sendChallenge, user, match: {params}} = this.props;
+    const {
+      challenges,
+      submissions,
+      leaderboards,
+      sendChallenge,
+      getSubmissions,
+      getLeaderboard,
+      user,
+      location,
+      match: {params},
+    } = this.props;
     const challenge = challenges[params.challengeId];
+    const currSubmissions = submissions[params.challengeId] || [];
+    const currLeaderboard = leaderboards[params.challengeId] || [];
 
     if (challenge == null) {
       return <div/>;
@@ -47,17 +64,24 @@ class Challenge extends React.Component {
               {challenge.title}
             </h1>
           </div>
-          <Route component={ChallengeNavigation}/>
+          <Route render={() => <ChallengeNavigation user={user} params={params} location={location}/>}/>
 					<div style={styles.body}>
             <Switch>
               <Route exact path={basePath} render={() => <ChallengeInfo challenge={challenge}/>}/>
               <Route path={`${basePath}/leaderboard`} render={() =>
-                <Leaderboard challenge={challenge}/>
+                <Leaderboard
+                  challenge={challenge}
+                  leaderboard={currLeaderboard}
+                  getLeaderboard={getLeaderboard}
+                  user={user}
+                />
               }/>
               <Route path={`${basePath}/submissions`} render={() =>
                 <Submissions
                   challenge={challenge}
                   sendChallenge={sendChallenge}
+                  getSubmissions={getSubmissions}
+                  submissions={currSubmissions}
                   user={user}
                 />
               }/>
@@ -70,10 +94,12 @@ class Challenge extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const {challenges, user} = state;
+  const {challenges, user, submissions, leaderboards} = state;
   return {
     challenges,
     user,
+    submissions,
+    leaderboards,
   };
 };
 
@@ -84,7 +110,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(submitChallenge(challengeId, token, file)),
       100,
     ),
-  }
+    getSubmissions: debounce((challengeId, token) => dispatch(fetchSubmissions(challengeId, token)), 100),
+    getLeaderboard: debounce(challengeId => dispatch(fetchLeaderboard(challengeId)), 100),
+  };
 };
 
 export default connect(

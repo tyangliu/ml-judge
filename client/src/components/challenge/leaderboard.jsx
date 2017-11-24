@@ -1,10 +1,37 @@
 import React from 'react';
 import Radium from 'radium';
 import styler from 'react-styling';
+import XDate from 'xdate';
 
 @Radium
 export default class Leaderboard extends React.Component {
+  componentWillMount() {
+    const {challenge, getLeaderboard} = this.props;
+    getLeaderboard(challenge.id); 
+  }
+
   render() {
+    const {leaderboard, user} = this.props;
+    const subRows = leaderboard.map((sub, i) => {
+      const isCurrentUser = user && user.username == sub.username;
+      return ( 
+        <tr style={styles.entryItem[isCurrentUser ? 'current' : 'normal']}
+            key={sub.sub_id}>
+          <td style={styles.entryRank}>
+            {i + 1}
+          </td>
+          <td style={styles.entryName}>
+            {sub.username}
+          </td>
+          <td style={styles.entryScore}>
+            {sub.score}
+          </td>
+          <td style={styles.entryDatetime}>
+            {(new XDate(sub.created_at)).toString('M/d/yyyy h:mm TT')}
+          </td>
+        </tr>
+      );
+    });
     return (
       <div style={styles.leaderboard}>
         <table style={styles.entries}>
@@ -23,34 +50,7 @@ export default class Leaderboard extends React.Component {
                 Submitted
               </th>
             </tr>
-            <tr style={styles.entryItem}>
-              <td style={styles.entryRank}>
-                1
-              </td>
-              <td style={styles.entryName}>
-                Potato            
-              </td>
-              <td style={styles.entryScore}>
-                96.70
-              </td>
-              <td style={styles.entryDatetime}>
-                2/12/2017 9:00PM
-              </td>
-            </tr>
-            <tr style={styles.entryItem.current}>
-              <td style={styles.entryRank}>
-                2
-              </td>
-              <td style={styles.entryName}>
-                Potato            
-              </td>
-              <td style={styles.entryScore}>
-                95.74
-              </td>
-              <td style={styles.entryDatetime}>
-                2/12/2017 9:00PM
-              </td>
-            </tr>
+            {subRows}
           </tbody>
         </table>
       </div>

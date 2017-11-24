@@ -2,6 +2,7 @@ import datetime
 import hashlib
 import importlib.util
 import os
+import operator
 import uuid
 from sanic import response
 from sanic.exceptions import ServerError
@@ -61,11 +62,33 @@ def challenges(app, db):
         Responds with the leaderboard for the specific challenge_id.
         '''
         submissions_tbl = get_submissions_table(challenge_id)
+        submissions = submissions_tbl.all()
+
+        Challenge = Query()
+        results = challenges_tbl.search(Challenge.id == challenge_id)
+        curr_challenge = results[0]
+
+        top_submissions = {}
+
+        reverse_scores = curr_challenge['score_order'] == 'reverse'
   
         # Filter to only keep the top submission per username.
-        # TODO
+        for sub in submissions:
+            if (sub['username'] not in top_submissions):
+                top_submissions[sub['username']] = sub
+            elif (reverse_scores):
+                if top_submissions[sub['username']]['score'] > sub['score']:
+                    top_submissions[sub['username']] = sub
+            elif top_submissions[sub['username']]['score'] < sub['score']: 
+                top_submissions[sub['username']] = sub
 
-        return response.json({})
+        leaderboard = []
+        for key, value in top_submissions.items():
+            leaderboard.append(value)
+
+        leaderboard = sorted(leaderboard, key=lambda s: s['score'], reverse=(not reverse_scores))
+
+        return response.json(leaderboard)
 
 
     @app.route('/challenges/<challenge_id>/submissions/<user_token>', methods=['GET', 'OPTIONS'])
@@ -95,10 +118,11 @@ def challenges(app, db):
         '''
         Challenge = Query()
         challenge_results = challenges_tbl.search(Challenge.id == challenge_id)
-        curr_challenge = challenge_results[0]
 
         if len(challenge_results) != 1:
             raise ServerError('Invalid challenge_id.', status_code=404)
+
+        curr_challenge = challenge_results[0]
 
         Token = Query()
         token_results = user_tokens_tbl.search(Token.token == user_token)

@@ -1,6 +1,7 @@
 import React from 'react';
 import Radium from 'radium';
 import styler from 'react-styling';
+import {Link} from 'react-router-dom';
 
 @Radium
 export default class Account extends React.Component {
@@ -16,6 +17,9 @@ export default class Account extends React.Component {
         <button style={styles.logoutButton} onClick={this.onLogout}>
           Sign Out
         </button>
+        <Link to='/' style={styles.homeLink}>
+          <i className='material-icons' style={styles.homeIcon}>home</i>
+        </Link>
         <div style={styles.accountName}>
           <span style={styles.greeting}>Hi</span>&nbsp;
           <span style={styles.username}>{user.username}</span>!
@@ -49,4 +53,13 @@ const styles = styler`
     padding-right: 0
     float: right
     outline: none
+
+  homeLink
+    margin-right: 40px
+    line-height: 1px
+    float: left
+    margin-top: 4px
+  
+  homeIcon
+    font-size: 22px
 `;

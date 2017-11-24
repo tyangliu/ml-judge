@@ -3,7 +3,7 @@ import Radium, {Style} from 'radium';
 import {Route, Switch} from 'react-router-dom';
 import styler from 'react-styling';
 
-import {Home, Challenge, UserBar} from './components';
+import {Home, Challenge, UserBar, Signup} from './components';
 
 export default class App extends React.Component {
   render() {
@@ -13,6 +13,7 @@ export default class App extends React.Component {
         <UserBar/>
         <Switch>
           <Route exact path='/' component={Home}/>
+          <Route path='/signup' component={Signup}/>
           <Route path='/challenges/:challengeId' component={Challenge}/>
         </Switch>
         {this.props.children}

@@ -123,6 +123,21 @@ export function receiveLogout() {
   };
 }
 
+export function fetchLogout(token) {
+  const fullUrl = `${url}/logout`;
+  return async dispatch => {
+    dispatch(requestLogout());
+    localStorage.removeItem(TOKEN_KEY);
+    const response = await fetch(fullUrl, {
+      method: 'POST',
+      body: JSON.stringify({
+        token,
+      }),
+    });
+    dispatch(receiveLogout());
+  };
+}
+
 export function requestTokenValidate(token) {
   return {
     type: REQUEST_TOKEN_VALIDATE,
@@ -163,18 +178,34 @@ export function retrieveToken() {
   };
 }
 
-export function fetchLogout(token) {
-  const fullUrl = `${url}/logout`;
+export function requestSignup(username, email) {
+  return {
+    type: REQUEST_SIGNUP,
+    username,
+    email,
+  };
+}
+
+export function receiveSignup() {
+  return {
+    type: RECEIVE_SIGNUP,
+  };
+}
+
+export function fetchSignup(username, email, password) {
+  const fullUrl = `${url}/users`;
   return async dispatch => {
-    dispatch(requestLogout());
-    localStorage.removeItem(TOKEN_KEY);
+    dispatch(requestSignup(username, email));
     const response = await fetch(fullUrl, {
       method: 'POST',
       body: JSON.stringify({
-        token,
+        username,
+        email,
+        password,
       }),
     });
-    dispatch(receiveLogout());
+    const result = await response.json();
+    dispatch(receiveSignup());
   };
 }
 
@@ -184,9 +215,10 @@ export function requestSubmitChallenge() {
   };
 }
 
-export function receiveSubmitChallenge(result) {
+export function receiveSubmitChallenge(challengeId, result) {
   return {
     type: RECEIVE_SUBMIT_CHALLENGE,
+    challengeId,
     result,
   };
 }
@@ -209,7 +241,57 @@ export function submitChallenge(challengeId, token, file) {
       });
       const result = await response.json();
       console.log(result);
-      dispatch(receiveSubmitChallenge(result));
+      dispatch(receiveSubmitChallenge(challengeId, result));
     };
   };  
+}
+
+export function requestSubmissions() {
+  return {
+    type: REQUEST_SUBMISSIONS,
+  };
+}
+
+export function receiveSubmissions(challengeId, submissions) {
+  return {
+    type: RECEIVE_SUBMISSIONS,
+    challengeId,
+    submissions,
+  };
+}
+
+export function fetchSubmissions(challengeId, token) {
+  const fullUrl = `${url}/challenges/${challengeId}/submissions/${token}`;
+
+  return async dispatch => {
+    dispatch(requestSubmissions());
+    const response = await fetch(fullUrl);    
+    const submissions = await response.json();
+    dispatch(receiveSubmissions(challengeId, submissions));
+  };
+}
+
+export function requestLeaderboard() {
+  return {
+    type: REQUEST_LEADERBOARD,
+  };
+}
+
+export function receiveLeaderboard(challengeId, leaderboard) {
+  return {
+    type: RECEIVE_LEADERBOARD,
+    challengeId,
+    leaderboard,
+  };
+}
+
+export function fetchLeaderboard(challengeId) {
+  const fullUrl = `${url}/challenges/${challengeId}/leaderboard`;
+
+  return async dispatch => {
+    dispatch(requestLeaderboard());
+    const response = await fetch(fullUrl);
+    const leaderboard = await response.json();
+    dispatch(receiveLeaderboard(challengeId, leaderboard));
+  };
 }

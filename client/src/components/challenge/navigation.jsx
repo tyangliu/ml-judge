@@ -13,13 +13,16 @@ export default class ChallengeNavigation extends React.Component {
       path: '',
       display: 'Challenge',
     },
+    /*
     {
       path: '/resources',
       display: 'Resources',
     },
+    */
     {
       path: '/submissions',
       display: 'Submissions',
+      requireLogin: true,
     },
     {
       path: '/leaderboard',
@@ -28,10 +31,13 @@ export default class ChallengeNavigation extends React.Component {
   ];
 
   render() { 
-    const {match: {params}} = this.props;
+    const {user, params} = this.props;
     const basePath = `/challenges/${params.challengeId}`;
 
     const links = this.links.map(link => {
+      if (link.requireLogin && !user) {
+        return null;
+      }
       const linkPath = basePath + link.path;
       return (
         <li style={

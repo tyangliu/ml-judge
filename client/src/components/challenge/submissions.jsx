@@ -2,6 +2,7 @@ import React from 'react';
 import Radium from 'radium';
 import styler from 'react-styling';
 import Dropzone from 'react-dropzone';
+import XDate from 'xdate';
 
 const MAX_SIZE = 50 * Math.pow(10, 6);
 const ACCEPT = 'application/zip,application/x-zip, application/x-zip-compressed';
@@ -27,14 +28,50 @@ export default class Submissions extends React.Component {
     if (files.length != 1) {
       return;
     }    
-    console.log('hi');
     
     sendChallenge(challenge.id, user.token, files[0]);
   };
 
+  componentWillMount() {
+    const {challenge, user, getSubmissions} = this.props;
+    if (!user || !challenge) {
+      return;
+    }
+    getSubmissions(challenge.id, user.token);
+  }
+
   render() {
+    const {challenge, submissions} = this.props;
     const {files} = this.state;
     const file = files.length == 1 ? files[0] : null;
+
+    let bestSubmission = 0;
+    let bestSubmissionScore = 0;
+    submissions.forEach((sub, i) => {
+      if (challenge.score_order == 'reverse') {
+        if (sub.score < bestSubmissionScore) {
+          bestSubmission = i;
+          bestSubmissionScore = sub.score;
+        }
+      } else if (sub.score > bestSubmissionScore) {
+        bestSubmission = i;
+        bestSubmissionScore = sub.score;
+      }
+    });
+
+    const subRows = submissions.map((sub, i) => {
+      const isBest = i == bestSubmission;
+      return ( 
+        <tr style={styles.entryItem[isBest ? 'best' : 'normal']} key={sub.sub_id}>
+          <td style={styles.entryScore}>
+            {sub.score}
+          </td>
+          <td style={styles.entryDatetime}>
+            {(new XDate(sub.created_at)).toString('M/d/yyyy h:mm TT')}
+          </td>
+        </tr>
+      );
+    });
 
     return (
       <div style={styles.submissions}>
@@ -99,22 +136,7 @@ export default class Submissions extends React.Component {
                   Submitted
                 </th>
               </tr>
-              <tr style={styles.entryItem.best}>
-                <td style={styles.entryScore}>
-                  96.70
-                </td>
-                <td style={styles.entryDatetime}>
-                  2/12/2017 9:00PM
-                </td>
-              </tr>
-              <tr style={styles.entryItem}>
-                <td style={styles.entryScore}>
-                  95.74
-                </td>
-                <td style={styles.entryDatetime}>
-                  2/12/2017 9:00PM
-                </td>
-              </tr>
+              {subRows}
             </tbody>
           </table>
         </div>

@@ -13,6 +13,7 @@ def users(app, db):
     @app.route('/users', methods=['POST'])
     async def users_register_handler(request):
         data = request.json
+        print(data)
 
         # TODO: Validate data.
         if not True:

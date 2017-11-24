@@ -64,6 +64,7 @@ def save(path, desc, res, sub):
         'due_date': due_date.isoformat(),
         'difficulty': desc['difficulty'],
         'type': desc['type'],
+        'score_order': desc['score-order'],
         'description': desc.content,
         'resources': res.content,
         'submission': sub.content,
