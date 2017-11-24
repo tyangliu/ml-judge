@@ -1,6 +1,7 @@
 import React from 'react';
 import Radium, {Style} from 'radium';
 import styler from 'react-styling';
+import DocumentTitle from 'react-document-title';
 import {Switch, Route, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import debounce from 'debounce';
@@ -52,43 +53,45 @@ class Challenge extends React.Component {
     const formattedDueDate = dueDate.toString('MMM d, yyyy h:mm TT');
 
     return (
-      <div style={styles.challenge}>
-        <Style rules={styles.challengeRules}/>
-        <div style={styles.challengeContainer}>
-          <div style={styles.challengeHeader}>
-            <p style={styles.challengeDeadline}>
-              <span style={styles.submitBy}>Submit By:</span> {formattedDueDate}
-            </p>
-            <p style={styles.challengeDate}>{formattedDate}</p>
-            <h1 style={styles.title}>
-              {challenge.title}
-            </h1>
+      <DocumentTitle title={challenge.title + ' - ml@UBC' || 'ml@UBC'}>
+        <div style={styles.challenge}>
+          <Style rules={styles.challengeRules}/>
+          <div style={styles.challengeContainer}>
+            <div style={styles.challengeHeader}>
+              <p style={styles.challengeDeadline}>
+                <span style={styles.submitBy}>Submit By:</span> {formattedDueDate}
+              </p>
+              <p style={styles.challengeDate}>{formattedDate}</p>
+              <h1 style={styles.title}>
+                {challenge.title}
+              </h1>
+            </div>
+            <Route render={() => <ChallengeNavigation user={user} params={params} location={location}/>}/>
+            <div style={styles.body}>
+              <Switch>
+                <Route exact path={basePath} render={() => <ChallengeInfo challenge={challenge}/>}/>
+                <Route path={`${basePath}/leaderboard`} render={() =>
+                  <Leaderboard
+                    challenge={challenge}
+                    leaderboard={currLeaderboard}
+                    getLeaderboard={getLeaderboard}
+                    user={user}
+                  />
+                }/>
+                <Route path={`${basePath}/submissions`} render={() =>
+                  <Submissions
+                    challenge={challenge}
+                    sendChallenge={sendChallenge}
+                    getSubmissions={getSubmissions}
+                    submissions={currSubmissions}
+                    user={user}
+                  />
+                }/>
+              </Switch>
+            </div>
           </div>
-          <Route render={() => <ChallengeNavigation user={user} params={params} location={location}/>}/>
-					<div style={styles.body}>
-            <Switch>
-              <Route exact path={basePath} render={() => <ChallengeInfo challenge={challenge}/>}/>
-              <Route path={`${basePath}/leaderboard`} render={() =>
-                <Leaderboard
-                  challenge={challenge}
-                  leaderboard={currLeaderboard}
-                  getLeaderboard={getLeaderboard}
-                  user={user}
-                />
-              }/>
-              <Route path={`${basePath}/submissions`} render={() =>
-                <Submissions
-                  challenge={challenge}
-                  sendChallenge={sendChallenge}
-                  getSubmissions={getSubmissions}
-                  submissions={currSubmissions}
-                  user={user}
-                />
-              }/>
-            </Switch>
-					</div>
         </div>
-      </div>
+      </DocumentTitle>
     );
   }
 }
