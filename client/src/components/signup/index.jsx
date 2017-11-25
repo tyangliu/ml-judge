@@ -45,13 +45,15 @@ class Signup extends React.Component {
                     type='text'
                     name='username'
                     placeholder='Username'
+                    required
                     onChange={event => this.setState({username: event.target.value})}
                   /> 
                   <input
                     style={styles.signupInput}
-                    type='text'
+                    type='email'
                     name='email'
                     placeholder='Email'
+                    required
                     onChange={event => this.setState({email: event.target.value})}
                   />
                   <input
@@ -59,6 +61,7 @@ class Signup extends React.Component {
                     type='password'
                     name='password'
                     placeholder='Password'
+                    required
                     onChange={event => this.setState({password: event.target.value})}
                   /> 
                   <input
