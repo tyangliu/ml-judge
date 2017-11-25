@@ -25,6 +25,7 @@ tragedy.
 
 The input data is a csv file with passenger information as follows:
 
+```
 | Variable | Definition                        | Notes                                    |  
 | -------- | ----------------------------      | ------                                   |  
 | survival | whether a passenger survived      | 0 = no, 1 = yes; not present in test set |  
@@ -37,6 +38,7 @@ The input data is a csv file with passenger information as follows:
 | fare     | ticket fare                       |                                          |  
 | cabin    | cabin number                      |                                          |  
 | embarked | port of embarkation               | C=Cherbourg, Q=Queenstown, S=Southampton |  
+```
 
 # Scoring
 
