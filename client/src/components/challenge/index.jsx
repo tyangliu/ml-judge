@@ -172,6 +172,9 @@ const styles = styler`
       line-height: 36px
       margin-bottom: 4px
 
+    a
+      color: rgba(88, 133, 206, 1)
+
     p
       margin-bottom: 26px
 `;
