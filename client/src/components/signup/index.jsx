@@ -25,6 +25,7 @@ class Signup extends React.Component {
   };
 
   render() {
+    const {signupState} = this.props;
     return (
       <DocumentTitle title={'Create Account - ml@UBC'}>
         <div style={styles.signup}>
@@ -32,34 +33,41 @@ class Signup extends React.Component {
             <h1 style={styles.title}>
               Create Account
             </h1>
-            <form style={styles.signupForm}> 
-              <input
-                style={styles.signupInput}
-                type='text'
-                name='username'
-                placeholder='Username'
-                onChange={event => this.setState({username: event.target.value})}
-              /> 
-              <input
-                style={styles.signupInput}
-                type='text'
-                name='email'
-                placeholder='Email'
-                onChange={event => this.setState({email: event.target.value})}
-              />
-              <input
-                style={styles.signupInput}
-                type='password'
-                name='password'
-                placeholder='Password'
-                onChange={event => this.setState({password: event.target.value})}
-              /> 
-              <input
-                style={styles.signupButton}
-                type='button' value='Sign Up'
-                onClick={this.onSubmit}
-              />
-            </form>
+            {signupState.registered
+              ? <p style={styles.confirmMessage}>
+                  Thanks for signing up!
+                  <br/>
+                  You can now login with your account.
+                </p>
+              : <form style={styles.signupForm}> 
+                  <input
+                    style={styles.signupInput}
+                    type='text'
+                    name='username'
+                    placeholder='Username'
+                    onChange={event => this.setState({username: event.target.value})}
+                  /> 
+                  <input
+                    style={styles.signupInput}
+                    type='text'
+                    name='email'
+                    placeholder='Email'
+                    onChange={event => this.setState({email: event.target.value})}
+                  />
+                  <input
+                    style={styles.signupInput}
+                    type='password'
+                    name='password'
+                    placeholder='Password'
+                    onChange={event => this.setState({password: event.target.value})}
+                  /> 
+                  <input
+                    style={styles.signupButton}
+                    type='button' value='Sign Up'
+                    onClick={this.onSubmit}
+                  />
+                </form>
+            }
           </div>
         </div>
       </DocumentTitle>
@@ -68,7 +76,9 @@ class Signup extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {};
+  return {
+    signupState: state.signup,
+  };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -103,6 +113,9 @@ const styles = styler`
     padding: 20px 40px 20px 0
 
   signupForm
+    float: left
+
+  confirmMessage
     float: left
 
   signupInput

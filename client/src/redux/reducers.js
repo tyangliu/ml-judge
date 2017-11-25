@@ -110,7 +110,10 @@ function signup(state = {}, action) {
     case REQUEST_SIGNUP:
       return {isPending: true};
     case RECEIVE_SIGNUP:
-      return {isPending: false};
+      return {
+        isPending: false,
+        registered: true,
+      };
     default:
       return state;
   }
