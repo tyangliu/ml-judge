@@ -43,3 +43,5 @@ The input data is a csv file with passenger information as follows:
 Your score for this challenge will be the percentage of correct predictions on
 the test set, rounded to nearest 10th of a percent (same scores post-rounding
 will be tied).
+
+# [Download Starter Files](https://drive.google.com/file/d/1lWi9uEYfIbc1m_PnPQJcPWBe9XzSHqCU/view?usp=sharing)

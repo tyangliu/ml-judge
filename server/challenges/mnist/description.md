@@ -32,3 +32,5 @@ test samples that you get wrong.
 You should be able to get < 10% error rate easily. You should aim for a score
 of < 1% error rate, or if you\'re feeling exceptionally ambitious, a score of 
 < 0.5%.
+
+# [Download Starter Files](https://drive.google.com/file/d/1OUXMinWPQTQHQ-drkgKI7eiRTmhcClNg/view?usp=sharing)
