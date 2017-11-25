@@ -174,6 +174,7 @@ const styles = styler`
 
     code
       font-family: 'Courier New', Courier, monospace
+      margin-bottom: 26px
 
     a
       color: rgba(88, 133, 206, 1)
