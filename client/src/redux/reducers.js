@@ -134,6 +134,19 @@ function user(state = null, action) {
   }
 }
 
+function ui(state = {message: ''}, action) {
+  switch (action.type) {
+    case UPDATE_MESSAGE:
+    case RECEIVE_LOGIN:
+    case RECEIVE_SIGNUP:
+      return {
+        message: action.message,
+      };
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   challengesList,
   challenges,

@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 import importlib.util
+import json
 import os
 import operator
 import uuid
@@ -27,7 +28,13 @@ def challenges(app, db):
         results = challenges_tbl.search(Challenge.id == challenge_id)
 
         if not len(results) == 1:
-            raise ServerError('Invalid challenge_id.', status_code=404)
+            err = {
+                'message': 'Invalid challenge_id.',
+            }
+            return response.json(
+                err,
+                status_code=404,
+            )
 
         table_key = SUB_TABLE_PREFIX + hashlib.sha1(challenge_id.encode('utf-8')).hexdigest()
         return db.table(table_key)
@@ -47,11 +54,21 @@ def challenges(app, db):
         results = challenges_tbl.search(Challenge.id == challenge_id)
 
         if len(results) == 0:
-            raise ServerError('Challenge does not exist.', status_code=404)
+            err = {
+                'message': 'Challenge does not exist.',
+            }
+            return response.json(
+                err,
+                status_code=404,
+            )
         elif len(results) > 1:
-            raise ServerError(
-                'Multiple challenges matched - ids are not unique.',
-                status_code=500)
+            err = {
+                'message': 'Multiple challenges matched - ids are not unique.',
+            }
+            return response.json(
+                err,
+                status_code=404,
+            )
 
         return response.json(results[0])
     
@@ -100,7 +117,13 @@ def challenges(app, db):
         token_results = user_tokens_tbl.search(Token.token == user_token)
 
         if len(token_results) != 1:
-            raise ServerError('Invalid user_token.', status_code=404)
+            err = {
+                'message': 'Invalid user_token.',
+            }
+            return response.json(
+                err,
+                status_code=404,
+            )
 
         username = token_results[0]['username']
 
@@ -120,7 +143,13 @@ def challenges(app, db):
         challenge_results = challenges_tbl.search(Challenge.id == challenge_id)
 
         if len(challenge_results) != 1:
-            raise ServerError('Invalid challenge_id.', status_code=404)
+            err = {
+                'message': 'Invalid challenge_id.',
+            }
+            return response.json(
+                err,
+                status_code=404,
+            )
 
         curr_challenge = challenge_results[0]
 
@@ -128,7 +157,13 @@ def challenges(app, db):
         token_results = user_tokens_tbl.search(Token.token == user_token)
 
         if len(token_results) != 1:
-            raise ServerError('Invalid user_token.', status_code=404)
+            err = {
+                'message': 'Invalid user_token.',
+            }
+            return response.json(
+                err,
+                status_code=404,
+            )
 
         username = token_results[0]['username']
 
@@ -165,4 +200,10 @@ def challenges(app, db):
 
             return response.json(submission_obj)
         except:
-            raise ServerError('Error evaluating submission.', status_code=500)
+            err = {
+                'message': 'Error evaluating submission.',
+            }
+            return response.json(
+                err,
+                status_code=404,
+            )

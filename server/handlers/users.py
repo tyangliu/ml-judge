@@ -1,4 +1,5 @@
 import datetime
+import json
 import uuid
 from passlib.hash import pbkdf2_sha256
 from sanic import response
@@ -17,7 +18,13 @@ def users(app, db):
 
         # TODO: Validate data.
         if not True:
-            raise ServerError('Invalid form submission.', status_code=404)
+            err = {
+              'message': 'Invalid submission.',
+            }
+            return response.json(
+                err,
+                status=404,
+            )
 
         User = Query()
 
@@ -25,7 +32,13 @@ def users(app, db):
             (User.username == data['username']) | (User.email == data['email']))
 
         if len(results) > 0:
-            raise ServerError('Username or email already exists.', status_code=401)
+            err = {
+              'message': 'The username or email already exists.',
+            }
+            return response.json(
+                err,
+                status=404,
+            )
 
         users_tbl.insert({
             'username': data['username'],
@@ -43,20 +56,44 @@ def users(app, db):
 
         # TODO: Validate data.
         if not True:
-            raise ServerError('Invalid form submission.', status_code=404)
+            err = {
+                'message': 'Invalid submission.',
+            }
+            return response.json(
+                err,
+                status=404,
+            )
 
         User = Query()
         
         results = users_tbl.search(User.username == data['username'])
 
         if len(results) == 0:
-            raise ServerError('Invalid username.', status_code=404)
+            err = {
+                'message': 'The username or password is not correct.',
+            }
+            return response.json(
+                err,
+                status=404,
+            )
 
         if len(results) > 1:
-            raise ServerError('Bad meme.', status_code=500)
+            err = {
+                'message': 'Bad meme.',
+            }
+            return response.json(
+                err,
+                status=404,
+            )
 
         if not pbkdf2_sha256.verify(data['password'], results[0]['password_hash']):
-            raise ServerError('Invalid password.', status_code=404)
+            err = {
+                'message': 'The username or password is not correct.',
+            }
+            return response.json(
+                err,
+                status=404,
+            )
 
         # Generate token that expires in 24 hours or when user presses logout,
         # invalidate existing tokens for this user.
@@ -84,7 +121,13 @@ def users(app, db):
 
         # TODO: Validate data.
         if not True:
-            raise ServerError('Invalid form submission.', status_code=404)
+            err = {
+                message: 'Invalid submission.',
+            }
+            return response.json(
+                err,
+                status=404,
+            )
 
         Token = Query()
 
@@ -95,24 +138,30 @@ def users(app, db):
 
     @app.route('/validate_token', methods=['POST'])
     async def validate_token_handler(request):
-      '''
-      Check token validity for the user.
-      '''
-      data = request.json 
+        '''
+        Check token validity for the user.
+        '''
+        data = request.json 
 
-      # TODO: Validate data.
-      if not True:
-        raise ServerError('Invalid form submission.', status_code=404)
+        # TODO: Validate data.
+        if not True:
+            err = {
+                'message': 'Invalid submission.',
+            }
+            return response.json(
+                err,
+                status=404,
+            )
 
-      Token = Query()
-      results = user_tokens_tbl.search(
-          (Token.token == data['token']) &
-          (Token.username == data['username'])
-      )
+        Token = Query()
+        results = user_tokens_tbl.search(
+            (Token.token == data['token']) &
+            (Token.username == data['username'])
+        )
 
-      if not len(results) == 1:
-        return response.json({'is_valid': False})
+        if not len(results) == 1:
+            return response.json({'is_valid': False})
 
-      # TODO: Check expiration.
+        # TODO: Check expiration.
 
-      return response.json({'is_valid': True})
+        return response.json({'is_valid': True})

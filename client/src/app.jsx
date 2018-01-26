@@ -3,20 +3,23 @@ import Radium, {Style} from 'radium';
 import {Route, Switch} from 'react-router-dom';
 import styler from 'react-styling';
 
-import {Home, Challenge, UserBar, Signup} from './components';
+import {Home, Challenge, UserBar, MessageBar, Signup} from './components';
 
 export default class App extends React.Component {
   render() {
     return (
       <div style={styles.app}>
         <Style rules={styles.appRules}/>
-        <UserBar/>
-        <Switch>
-          <Route exact path='/' component={Home}/>
-          <Route path='/signup' component={Signup}/>
-          <Route path='/challenges/:challengeId' component={Challenge}/>
-        </Switch>
-        {this.props.children}
+        <MessageBar/>
+        <div style={styles.appContainer}>
+          <UserBar/>
+          <Switch>
+            <Route exact path='/' component={Home}/>
+            <Route path='/signup' component={Signup}/>
+            <Route path='/challenges/:challengeId' component={Challenge}/>
+          </Switch>
+          {this.props.children}
+        </div>
       </div>
     );
   }
@@ -35,6 +38,9 @@ const styles = styler`
     align-items: center
     justify-content: center
     min-height: 100vh
+
+  appContainer
+    position: relative
 
   appRules 
     *

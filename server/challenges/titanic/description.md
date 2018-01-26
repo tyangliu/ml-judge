@@ -1,8 +1,8 @@
 ---
 id: titanic
 title: Titanic Survivors
-date: 2017-11-24
-due-date: 2017-12-08
+date: 2017-01-25
+due-date: 2018-02-01
 difficulty: Easy
 type: Classification (Binary)
 score-order: default

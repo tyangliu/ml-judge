@@ -1,6 +1,8 @@
 import queryString from 'query-string';
 import fetch from 'isomorphic-fetch';
 
+export const UPDATE_MESSAGE = 'UPDATE_MESSAGE';
+
 export const REQUEST_CHALLENGES_LIST = 'REQUEST_CHALLENGES_LIST';
 export const RECEIVE_CHALLENGES_LIST = 'RECEIVE_CHALLENGES_LIST';
 
@@ -31,6 +33,14 @@ export const RECEIVE_SUBMIT_CHALLENGE = 'RECEIVE_SUBMIT_CHALLENGE';
 const TOKEN_KEY = 'USER_TOKEN';
 
 const url = 'http://138.68.5.174:8962';
+// const url = 'http://0.0.0.0:8962';
+
+export function updateMessage(message) {
+  return {
+    type: UPDATE_MESSAGE,
+    message,
+  };
+}
 
 export function requestChallengesList() {
   return {
@@ -51,8 +61,12 @@ export function fetchChallengesList() {
   return async dispatch => {
     dispatch(requestChallengesList());
     const response = await fetch(fullUrl);
-    const challengesList = await response.json();
-    dispatch(receiveChallengesList(challengesList));
+    const result = await response.json();
+    if (response.status !== 200) {
+      dispatch(updateMessage(result.message));
+    } else {
+      dispatch(receiveChallengesList(result));
+    }
   };
 }
 
@@ -75,8 +89,12 @@ export function fetchChallenge(challengeId) {
   return async dispatch => {
     dispatch(requestChallenge(challengeId));
     const response = await fetch(fullUrl);
-    const challenge = await response.json();
-    dispatch(receiveChallenge(challenge));
+    const result = await response.json();
+    if (response.status !== 200) {
+      dispatch(updateMessage(result.message));
+    } else {
+      dispatch(receiveChallenge(result));
+    }
   };
 }
 
@@ -105,9 +123,13 @@ export function fetchLogin(username, password) {
         password,
       }),
     });
-    const token = await response.json();
-    localStorage.setItem(TOKEN_KEY, JSON.stringify(token));
-    dispatch(receiveLogin(token));
+    const result = await response.json();
+    if (response.status !== 200) {
+      dispatch(updateMessage(result.message));
+    } else {
+      localStorage.setItem(TOKEN_KEY, JSON.stringify(token));
+      dispatch(receiveLogin(result));
+    }
   };
 }
 
@@ -205,7 +227,11 @@ export function fetchSignup(username, email, password) {
       }),
     });
     const result = await response.json();
-    dispatch(receiveSignup());
+    if (response.status !== 200) {
+      dispatch(updateMessage(result.message));
+    } else {
+      dispatch(receiveSignup());
+    }
   };
 }
 
@@ -240,8 +266,11 @@ export function submitChallenge(challengeId, token, file) {
         body: data,
       });
       const result = await response.json();
-      console.log(result);
-      dispatch(receiveSubmitChallenge(challengeId, result));
+      if (response.status !== 200) {
+        dispatch(updateMessage(result.message));
+      } else {
+        dispatch(receiveSubmitChallenge(challengeId, result));
+      }
     };
   };  
 }
@@ -267,7 +296,11 @@ export function fetchSubmissions(challengeId, token) {
     dispatch(requestSubmissions());
     const response = await fetch(fullUrl);    
     const submissions = await response.json();
-    dispatch(receiveSubmissions(challengeId, submissions));
+    if (response.status !== 200) {
+      dispatch(updateMessage(result.message));
+    } else {
+      dispatch(receiveSubmissions(challengeId, submissions));
+    }
   };
 }
 
@@ -292,6 +325,10 @@ export function fetchLeaderboard(challengeId) {
     dispatch(requestLeaderboard());
     const response = await fetch(fullUrl);
     const leaderboard = await response.json();
-    dispatch(receiveLeaderboard(challengeId, leaderboard));
+    if (response.status !== 200) {
+      dispatch(updateMessage(result.message));
+    } else {
+      dispatch(receiveLeaderboard(challengeId, leaderboard));
+    }
   };
 }
