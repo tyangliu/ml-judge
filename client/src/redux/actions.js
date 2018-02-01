@@ -32,8 +32,8 @@ export const RECEIVE_SUBMIT_CHALLENGE = 'RECEIVE_SUBMIT_CHALLENGE';
 
 const TOKEN_KEY = 'USER_TOKEN';
 
-// const url = 'http://138.68.5.174:8962';
-const url = 'http://0.0.0.0:8962';
+const url = 'http://138.68.5.174:8962';
+// const url = 'http://0.0.0.0:8962';
 
 export function updateMessage(message) {
   return {
