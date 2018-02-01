@@ -55,6 +55,7 @@ const styles = styler`
     outline: none
 
   homeLink
+    color: rgba(51,88,126,1)
     margin-right: 40px
     line-height: 1px
     float: left

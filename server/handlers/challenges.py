@@ -103,7 +103,11 @@ def challenges(app, db):
         for key, value in top_submissions.items():
             leaderboard.append(value)
 
-        leaderboard = sorted(leaderboard, key=lambda s: s['score'], reverse=(not reverse_scores))
+        leaderboard = sorted(
+            leaderboard,
+            key=lambda s: (s['score'], s['created_at']),
+            reverse=(not reverse_scores),
+        )
 
         return response.json(leaderboard)
 

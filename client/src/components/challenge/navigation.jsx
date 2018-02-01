@@ -83,6 +83,7 @@ const styles = styler`
 
   navItemLink
     display: block
+    color: rgba(51,88,126,1)
     padding: 12px 18px 8px 18px
 
   clearfix
