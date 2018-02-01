@@ -45,7 +45,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getToken: debounce(() => dispatch(retrieveToken()), 100),
     login: debounce((username, password) => dispatch(fetchLogin(username, password)), 100),
     logout: debounce(token => dispatch(fetchLogout(token)), 100),
-  }
+  };
 };
 
 export default connect(

@@ -32,8 +32,8 @@ export const RECEIVE_SUBMIT_CHALLENGE = 'RECEIVE_SUBMIT_CHALLENGE';
 
 const TOKEN_KEY = 'USER_TOKEN';
 
-const url = 'http://138.68.5.174:8962';
-// const url = 'http://0.0.0.0:8962';
+// const url = 'http://138.68.5.174:8962';
+const url = 'http://0.0.0.0:8962';
 
 export function updateMessage(message) {
   return {
@@ -127,7 +127,7 @@ export function fetchLogin(username, password) {
     if (response.status !== 200) {
       dispatch(updateMessage(result.message));
     } else {
-      localStorage.setItem(TOKEN_KEY, JSON.stringify(token));
+      localStorage.setItem(TOKEN_KEY, JSON.stringify(result));
       dispatch(receiveLogin(result));
     }
   };

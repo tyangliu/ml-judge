@@ -3,6 +3,8 @@ import {routerReducer} from 'react-router-redux';
 import XDate from 'xdate';
 
 import {
+  UPDATE_MESSAGE,
+
   REQUEST_CHALLENGES_LIST,
   RECEIVE_CHALLENGES_LIST,
 
@@ -137,10 +139,17 @@ function user(state = null, action) {
 function ui(state = {message: ''}, action) {
   switch (action.type) {
     case UPDATE_MESSAGE:
-    case RECEIVE_LOGIN:
-    case RECEIVE_SIGNUP:
       return {
         message: action.message,
+      };
+    case RECEIVE_LOGIN:
+    case RECEIVE_LOGOUT:
+    case RECEIVE_SIGNUP:
+    case RECEIVE_SUBMIT_CHALLENGE:
+    case RECEIVE_SUBMISSIONS:
+    case RECEIVE_LEADERBOARD:
+      return {
+        message: '',
       };
     default:
       return state;
@@ -153,6 +162,7 @@ const rootReducer = combineReducers({
   leaderboards,
   submissions,
   signup,
+  ui,
   user,
   routing: routerReducer,
 });
