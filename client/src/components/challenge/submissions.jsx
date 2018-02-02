@@ -1,5 +1,6 @@
 import React from 'react';
-import Radium from 'radium';
+import ReactMarkdown from 'react-markdown';
+import Radium, {Style} from 'radium';
 import styler from 'react-styling';
 import Dropzone from 'react-dropzone';
 import XDate from 'xdate';
@@ -79,23 +80,10 @@ export default class Submissions extends React.Component {
           <h2 style={styles.heading}>
             Submit
           </h2>
-          <p style={styles.paragraph}>
-            Your submission should be a zip file containing:
+          <Style scopeSelector='.submissionScope' rules={styles.markdown}/>
+          <p style={styles.paragraph} className='submissionScope'>
+            <ReactMarkdown source={challenge.submission}/>
           </p>
-          <ul style={styles.submissionList}>
-            <li>
-              <span style={styles.filename}>src/</span>
-              &mdash;directory containing your source code files.
-            </li>
-            <li>
-              <span style={styles.filename}>predictions.csv</span>
-              &mdash;your predictions for the test set.
-            </li>
-            <li>
-              <span style={styles.filename}>readme.txt</span>
-              &mdash;Text file with a brief summary of your approach and model.
-            </li>
-          </ul>
           <Dropzone
             style={styles.upload}
             multiple={false}
@@ -233,4 +221,8 @@ const styles = styler`
 
   clearfix
     clear: both
+
+  markdown
+    ul
+      list-style-type: disc
 `;

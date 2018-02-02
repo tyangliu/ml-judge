@@ -1,6 +1,7 @@
 import React from 'react';
 import Radium from 'radium';
-import ReactMarkdown from 'react-markdown'; import styler from 'react-styling';
+import ReactMarkdown from 'react-markdown';
+import styler from 'react-styling';
 
 @Radium
 export default class ChallengeInfo extends React.Component {
