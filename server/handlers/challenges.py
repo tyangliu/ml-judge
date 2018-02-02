@@ -33,7 +33,7 @@ def challenges(app, db):
             }
             return response.json(
                 err,
-                status_code=404,
+                status=404,
             )
 
         table_key = SUB_TABLE_PREFIX + hashlib.sha1(challenge_id.encode('utf-8')).hexdigest()
@@ -59,7 +59,7 @@ def challenges(app, db):
             }
             return response.json(
                 err,
-                status_code=404,
+                status=404,
             )
         elif len(results) > 1:
             err = {
@@ -67,7 +67,7 @@ def challenges(app, db):
             }
             return response.json(
                 err,
-                status_code=404,
+                status=404,
             )
 
         return response.json(results[0])
@@ -125,7 +125,7 @@ def challenges(app, db):
             }
             return response.json(
                 err,
-                status_code=404,
+                status=404,
             )
 
         username = token_results[0]['username']
@@ -151,7 +151,7 @@ def challenges(app, db):
             }
             return response.json(
                 err,
-                status_code=404,
+                status=404,
             )
 
         curr_challenge = challenge_results[0]
@@ -165,7 +165,7 @@ def challenges(app, db):
             }
             return response.json(
                 err,
-                status_code=404,
+                status=404,
             )
 
         username = token_results[0]['username']
@@ -208,5 +208,5 @@ def challenges(app, db):
             }
             return response.json(
                 err,
-                status_code=404,
+                status=404,
             )

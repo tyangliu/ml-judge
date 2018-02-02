@@ -5,7 +5,7 @@ date: 2018-02-01
 due-date: 2018-02-15
 difficulty: Medium
 type: Image Classification
-score-order: reverse
+score-order: default
 ---
 
 # Background
@@ -19,3 +19,5 @@ Your input data will be a collection of images. Given an image, you are to class
 
 Your score for this challenge will be the test accuracy, the percentage of correctly
 classified test images rounded to the nearest hundredth.
+
+# [Download Starter Files](https://drive.google.com/file/d/1J1nh5CDZkimdo3yflgzFi5e9ejYupRB0/view?usp=sharing)
