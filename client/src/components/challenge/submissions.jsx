@@ -6,7 +6,7 @@ import Dropzone from 'react-dropzone';
 import XDate from 'xdate';
 
 const MAX_SIZE = 50 * Math.pow(10, 6);
-const ACCEPT = 'application/zip,application/x-zip, application/x-zip-compressed';
+const ACCEPT = 'application/zip,application/x-zip, application/x-zip-compressed, application/csv';
 
 @Radium
 export default class Submissions extends React.Component {
