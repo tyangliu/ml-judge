@@ -197,7 +197,7 @@ def challenges(app, db):
                 'username': username,
                 'sub_id': sub_id,
                 'score': score,
-                'created_at': datetime.datetime.now().isoformat(),
+                'created_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
             }
             submissions_tbl.insert(submission_obj)
 

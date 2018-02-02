@@ -44,7 +44,7 @@ def users(app, db):
             'username': data['username'],
             'password_hash': pbkdf2_sha256.hash(data['password']),
             'email': data['email'],
-            'created_at': datetime.datetime.now().isoformat(),
+            'created_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
         })
 
         return response.json({})
@@ -103,8 +103,8 @@ def users(app, db):
             'username': data['username'],
             'token': token,
             # TODO: make sure these can be deserialized.
-            'created_at': datetime.datetime.now().isoformat(),
-            'expires_at': datetime.datetime.now().isoformat(),
+            'created_at': datetime.datetime.utcnow().isoformat(),
+            'expires_at': datetime.datetime.utcnow().isoformat(),
         }
 
         user_tokens_tbl.upsert(token_data, User.username == data['username'])
