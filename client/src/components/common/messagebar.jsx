@@ -56,4 +56,5 @@ const styles = styler`
     font-size: 18px
     text-align: center
     line-height: 1em
+    margin: 0
 `;
