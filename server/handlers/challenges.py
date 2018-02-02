@@ -105,8 +105,7 @@ def challenges(app, db):
 
         leaderboard = sorted(
             leaderboard,
-            key=lambda s: (s['score'], s['created_at']),
-            reverse=(not reverse_scores),
+            key=lambda s: ((1 if reverse_scores else -1) * s['score'], s['created_at']),
         )
 
         return response.json(leaderboard)
