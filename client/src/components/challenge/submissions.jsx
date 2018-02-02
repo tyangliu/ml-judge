@@ -87,7 +87,6 @@ export default class Submissions extends React.Component {
           <Dropzone
             style={styles.upload}
             multiple={false}
-            accept={ACCEPT}
             maxSize={MAX_SIZE}
             onDrop={this.onDrop}
           >
