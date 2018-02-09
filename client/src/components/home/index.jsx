@@ -83,10 +83,10 @@ const styles = styler`
     color: rgba(51,88,126,1)
     width: 100%
     display: flex
+    flex: 1
     flex-direction: column
     align-items: center
     justify-content: center
-    min-height: 100vh
 
   homeContainer
     padding: 40px 0
