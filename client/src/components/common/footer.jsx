@@ -38,6 +38,7 @@ const styles = styler`
     margin-right: 7px
 
   fbLink
+    color: rgba(51,88,126,1)
     font-family: 'mr-eaves-xl-sans', sans-serif;
     font-weight: bold
     display: block
