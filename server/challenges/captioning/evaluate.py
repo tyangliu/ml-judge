@@ -1,3 +1,4 @@
+import os
 import json
 
 from collections import defaultdict
@@ -5,7 +6,9 @@ from nltk import word_tokenize
 
 from nltk.translate.bleu_score import sentence_bleu
 
-test_captions = json.load(open("test_captions_ans.json"))
+DIR = os.path.dirname(os.path.realpath(__file__))
+
+test_captions = json.load(open(os.path.join(DIR, "test_captions_ans.json")))
 
 id_to_caption = defaultdict(list)
 for entry in test_captions['annotations']:
@@ -29,4 +32,4 @@ def evaluate(filename):
   for reference,predicted in zip(captions, outputs):
     score += compute_bleu(reference, predicted)
 
-  return 100 * score/len(outputs)
+  return int(100 * score)/len(outputs)
