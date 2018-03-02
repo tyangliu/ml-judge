@@ -7,7 +7,7 @@ DIR = os.path.dirname(os.path.realpath(__file__))
 
 def evaluate(path):
     test_labels = [line for line in csv.reader(open(os.path.join(DIR, 'test_labels.csv')), delimiter=' ')]
-    pred_labels = [line for line in csv.reader(open(path), delimter=' ')]
+    pred_labels = [line for line in csv.reader(open(path), delimiter=' ')]
 
     assert len(test_labels) == len(pred_labels), "Must have correct number of samples"
     score = 0.0

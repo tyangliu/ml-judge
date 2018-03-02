@@ -202,9 +202,11 @@ def challenges(app, db):
             submissions_tbl.insert(submission_obj)
 
             return response.json(submission_obj)
-        except:
+        except Exception as e:
+            print(e)
             err = {
                 'message': 'Error evaluating submission.',
+                'e': str(e),
             }
             return response.json(
                 err,
